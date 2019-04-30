@@ -21,7 +21,7 @@ contract Store{
     }
 
     struct Order{
-        string deleveryAddress;
+        string deliveryAddress;
         string product;
     }
 
@@ -36,19 +36,19 @@ contract Store{
         return(products[name].description, products[name].price);
     }
 
-    function order (string memory deliveryAddress, string memory name) public  {
+    function order (string memory deliveryAddress, string memory name) payable public  {
         require(msg.value>products[name].price);
         owner.transfer(msg.value);
-        orders[msg.sender].deleveryAddress = deliveryAddress;
+        orders[msg.sender].deliveryAddress = deliveryAddress;
         orders[msg.sender].product = name;
         clientsAddress.push(msg.sender);
     }
 
-    function getOrders () public restricted returns(string memory deleveryAddress,
+    function getOrders () public restricted returns(string memory deliveryAddress,
     string memory product){
         address client = clientsAddress[lastAddressChecked];
         lastAddressChecked++;
-        return(orders[client].deleveryAddress, orders[client].product);
+        return(orders[client].deliveryAddress, orders[client].product);
     }
 
 }
